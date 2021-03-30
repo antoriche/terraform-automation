@@ -1,0 +1,16 @@
+{
+    "name": "SmartCapex-dev",
+    "organisation": "JetpackAI",
+    "template": "react-app",
+    "variables":{
+        "repository":"https://git-codecommit.eu-west-1.amazonaws.com/v1/repos/smart-capex",
+        "branch":"develop",
+        "env_vars":{
+            "REACT_APP_API_URL":"https://9tkf68nmpl.execute-api.eu-west-1.amazonaws.com/dev",
+            "REACT_APP_COGNITO_REGION":"eu-west-1",
+            "REACT_APP_COGNITO_IDENTITY_POOL_ID":"eu-west-1:51892240-b642-4e4e-b783-3313a354d429",
+            "REACT_APP_COGNITO_USER_POOL_ID":"eu-west-1_EG5xXy70o",
+            "REACT_APP_COGNITO_APP_CLIENT_ID":"79uo4urps3rpjn4m5v0bc9vb5j"
+        }
+    }
+}

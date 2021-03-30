@@ -1,0 +1,20 @@
+#!/bin/sh
+### Federated entrypoint
+
+export SCRIPTPATH=$(cd "$(dirname $( readlink "$0" || echo "$0" ) )"; pwd -P)
+export TF_DATA_DIR="$SCRIPTPATH/.terraform"
+
+
+case "$1" in
+    create | destroy | apply-config | list-templates)
+        "$SCRIPTPATH/$1" "${@:2}"
+    break;;
+    *)
+        echo "Usage : terraform-automation command"
+        echo "command list :"
+        echo "  - create : create an infrastructure based on parameters"
+        echo "  - destroy : destroy an infrastructure based on parameters"
+        echo "  - apply-config : create an infrastructure based on a configuration file"
+        echo "  - list-templates : list available templates"
+    break;;
+esac

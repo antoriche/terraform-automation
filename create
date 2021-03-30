@@ -1,0 +1,30 @@
+#!/bin/sh
+if [ -z "$3" ]; then
+    echo "Usage : [AUTO_APPROVE=1] ./create template organization project-name"
+    exit 1
+fi
+
+function fail {
+    printf '%s\n' "$1" >&2
+    exit "${2-1}"
+}
+
+
+export SCRIPTPATH=$(cd "$(dirname $( readlink "$0" || echo "$0" ) )"; pwd -P)
+export TF_DATA_DIR="$SCRIPTPATH/.terraform"
+export TF_IN_AUTOMATION="1"
+[[ -z ${AUTO_APPROVE+x} ]] || export AUTO_APPROVE="-auto-approve"
+
+#cd "$SCRIPTPATH/templates/$1" 2>/dev/null || fail "unknown template $1"
+[ -d "$SCRIPTPATH/templates/$1" ] || fail "unknown template $1"
+
+terraform init --backend=false -input=false "$SCRIPTPATH/templates/$1"
+
+terraform workspace new "$3" "$SCRIPTPATH/templates/$1" 2>/dev/null
+terraform workspace select "$3" "$SCRIPTPATH/templates/$1" || exit "1"
+
+terraform init --backend=true -backend-config="organization=$2" -input=false "$SCRIPTPATH/templates/$1"
+
+$SCRIPTPATH/bin/local-execution-mode "$2" "$1_$3" || exit "1"
+
+terraform apply $AUTO_APPROVE "$SCRIPTPATH/templates/$1" || exit "1"

@@ -1,0 +1,2 @@
+#!/bin/sh
+cat "$HOME/.terraform.d/credentials.tfrc.json" | jq -r '.credentials["app.terraform.io"].token'

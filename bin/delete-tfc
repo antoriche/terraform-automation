@@ -1,0 +1,13 @@
+#!/bin/sh
+if [ -z "$2" ]; then
+    echo "Usage : ./run organization workspace"
+    exit 1
+fi
+export SCRIPTPATH=$(cd "$(dirname $( readlink "$0" || echo "$0" ) )"; pwd -P)
+export TF_BACKEND_TOKEN=$($SCRIPTPATH/get-token)
+curl \
+-s \
+--header "Authorization: Bearer $(echo $TF_BACKEND_TOKEN)" \
+--header "Content-Type: application/vnd.api+json" \
+--request DELETE \
+"https://app.terraform.io/api/v2/organizations/$1/workspaces/$2" >/dev/null || exit "1"

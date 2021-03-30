@@ -1,0 +1,48 @@
+#!/bin/sh
+if [ -z "$1" ]; then
+    echo "Usage : [AUTO_APPROVE=1] ./apply-config config.json"
+    exit 1
+fi
+
+function fail {
+    printf '%s\n' "$1" >&2
+    exit "${2-1}"
+}
+
+export SCRIPTPATH=$(cd "$(dirname $( readlink "$0" || echo "$0" ) )"; pwd -P)
+export CONFIG=$(cat "$1" 2>/dev/null )
+[[ -z "$CONFIG" ]] && fail "No such config $1"
+
+export name=$(echo $CONFIG | jq -r ".name // empty")
+[[ -z "$name" ]] && fail "No name in config"
+
+export organisation=$(echo $CONFIG | jq -r ".organisation  // empty")
+[[ -z "$organisation" ]] && fail "No organisation in config"
+
+export template=$(echo $CONFIG | jq -r ".template  // empty")
+[[ -z "$template" ]] && fail "No template in config"
+
+
+function to_tf_map() {
+    if [[ $(echo "$1" | jq -r "type == \"object\"") == "true" ]] ; then
+        echo "{"
+        for var in $(echo $1 | jq -r ". | keys[]" )
+        do
+            echo "$var = $(echo $1 | jq ".[\"$var\"]" )"
+        done
+        echo "}"
+    else
+        echo "$1" | jq -r "."
+    fi
+    #jq ". | if type==\"object\" then \"yes\" else \"no\" end"
+}
+
+for var in $(echo $CONFIG | jq -r ".variables | keys[]")
+do
+    export varname="TF_VAR_$var"
+    export "$varname"="$( to_tf_map "$( echo $CONFIG | jq .variables[\"$var\"] )" )"
+    [[ -z "${!varname}" ]] && fail "error while setting variable $var"
+    #echo "$varname ${!varname}"
+done
+
+"$SCRIPTPATH/create" "$template" "$organisation" "$name"

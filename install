@@ -1,0 +1,10 @@
+#!/bin/sh
+
+### Checking dependencies
+
+which -s brew || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+which -s terraform || (brew tap hashicorp/tap && brew install hashicorp/tap/terraform)
+which -s jq || brew install jq
+which -s curl || brew install curl
+which -s git || brew install git
+
