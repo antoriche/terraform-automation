@@ -6,8 +6,11 @@ export TF_DATA_DIR="$SCRIPTPATH/.terraform"
 
 
 case "$1" in
-    create | destroy | apply-config | list-templates)
+    create | destroy | apply-config | list-templates | install)
         "$SCRIPTPATH/$1" "${@:2}"
+    break;;
+    update)
+        "$SCRIPTPATH/install" "${@:2}"
     break;;
     *)
         echo "Usage : terraform-automation command"
@@ -16,5 +19,6 @@ case "$1" in
         echo "  - destroy : destroy an infrastructure based on parameters"
         echo "  - apply-config : create an infrastructure based on a configuration file"
         echo "  - list-templates : list available templates"
+        echo "  - update : update scripts and template list from https://github.com/antoriche/terraform-automation"
     break;;
 esac
