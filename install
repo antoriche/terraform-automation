@@ -9,8 +9,8 @@ which -s curl || brew install curl
 which -s git || brew install git
 
 
-[ -d "/usr/local/terraform-automation" ] && sudo rm -rf /usr/local/terraform-automation
-sudo git clone https://github.com/antoriche/terraform-automation /usr/local/terraform-automation
+[ -d "$HOME/.terraform-automation" ] && sudo rm -rf "$HOME/.terraform-automation"
+sudo git clone https://github.com/antoriche/terraform-automation "$HOME/.terraform-automation"
 
 [ -L "/usr/local/bin/terraform-automation" ] && sudo rm -f /usr/local/bin/terraform-automation
-sudo ln -sn /usr/local/terraform-automation/terraform-automation /usr/local/bin/terraform-automation
+sudo ln -sn "$HOME/.terraform-automation" /usr/local/bin/terraform-automation
