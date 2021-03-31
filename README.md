@@ -15,7 +15,6 @@ curl https://raw.githubusercontent.com/antoriche/terraform-automation/master/ins
 First create an account on [terraform cloud](https://app.terraform.io/) and create or join an organization
 
 ```
-terraform login
 terraform-automation create react-app MyOrganization MyAwesomeProject-dev
 ```
 
@@ -43,6 +42,5 @@ You can keep your configuration into a file
 and deploy with
 
 ```
-terraform login
 terraform-automation apply-config infra.json
 ```

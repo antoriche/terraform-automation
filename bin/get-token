@@ -1,2 +1,4 @@
 #!/bin/sh
-cat "$HOME/.terraform.d/credentials.tfrc.json" | jq -r '.credentials["app.terraform.io"].token'
+export FILE=$(cat "$HOME/.terraform.d/credentials.tfrc.json" )
+[[ -z "$FILE" ]] && exit 1
+echo $FILE | jq -r '.credentials["app.terraform.io"].token' || exit 1

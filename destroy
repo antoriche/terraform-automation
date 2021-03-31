@@ -16,6 +16,8 @@ export TF_IN_AUTOMATION="1"
 
 cd "$1" 2>/dev/null || fail "unknown template $1"
 
+$SCRIPTPATH/bin/get-token >/dev/null 2>/dev/null || terraform login || fail 'Error while login'
+
 echo "1" | terraform init --backend=true -backend-config="organization=$2" >/dev/null
 
 terraform workspace select "$3" || exit "1"
