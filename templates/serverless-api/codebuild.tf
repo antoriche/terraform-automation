@@ -66,7 +66,10 @@ resource "aws_iam_role_policy" "codebuild_policy" {
         "Action": [
             "logs:*",
             "cloudformation:*",
-            "s3:*"
+            "s3:*",
+            "iam:*",
+            "lambda:*",
+            "apigateway:*"
         ],
         "Resource": ["*"]
     },
