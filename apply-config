@@ -1,6 +1,6 @@
 #!/bin/sh
 if [ -z "$1" ]; then
-    echo "Usage : [AUTO_APPROVE=1] ./apply-config config.json"
+    echo "Usage : [AUTO_APPROVE=1] ./apply-config config.json [destroy]"
     exit 1
 fi
 
@@ -43,4 +43,5 @@ do
     [[ -z "${!varname}" ]] && fail "error while setting variable $var"
 done
 
-"$SCRIPTPATH/create" "$template" "$organisation" "$name"
+[[ "$2" == "destroy" ]] && export METHOD="destroy" || export METHOD="create"
+"$SCRIPTPATH/$METHOD" "$template" "$organisation" "$name"
