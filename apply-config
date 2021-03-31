@@ -34,7 +34,6 @@ function to_tf_map() {
     else
         echo "$1" | jq -r "."
     fi
-    #jq ". | if type==\"object\" then \"yes\" else \"no\" end"
 }
 
 for var in $(echo $CONFIG | jq -r ".variables | keys[]")
@@ -42,7 +41,6 @@ do
     export varname="TF_VAR_$var"
     export "$varname"="$( to_tf_map "$( echo $CONFIG | jq .variables[\"$var\"] )" )"
     [[ -z "${!varname}" ]] && fail "error while setting variable $var"
-    #echo "$varname ${!varname}"
 done
 
 "$SCRIPTPATH/create" "$template" "$organisation" "$name"

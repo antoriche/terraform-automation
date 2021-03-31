@@ -8,6 +8,7 @@ which -s jq || brew install jq
 which -s curl || brew install curl
 which -s git || brew install git
 
+
 [ -d "/usr/local/terraform-automation" ] && sudo rm -rf /usr/local/terraform-automation
 sudo git clone https://github.com/antoriche/terraform-automation /usr/local/terraform-automation
 
