@@ -5,7 +5,7 @@ This project aim to create template for repetitive infrastructure parterns
 ## Install
 
 ```
-https://raw.githubusercontent.com/antoriche/terraform-automation/master/install | sh
+curl https://raw.githubusercontent.com/antoriche/terraform-automation/master/install | sh
 ```
 
 ## Usage
