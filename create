@@ -17,6 +17,7 @@ export TF_IN_AUTOMATION="1"
 
 [ -d "$SCRIPTPATH/templates/$1" ] || fail "unknown template $1"
 
+echo "Deployment pending..."
 echo "1" | terraform init --backend=true -backend-config="organization=$2" "$SCRIPTPATH/templates/$1" >/dev/null
 
 terraform workspace new "$3" "$SCRIPTPATH/templates/$1" 2>/dev/null
