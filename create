@@ -17,12 +17,10 @@ export TF_IN_AUTOMATION="1"
 
 [ -d "$SCRIPTPATH/templates/$1" ] || fail "unknown template $1"
 
-terraform init --backend=false -input=false "$SCRIPTPATH/templates/$1"
+echo "1" | terraform init --backend=true -backend-config="organization=$2" "$SCRIPTPATH/templates/$1"
 
 terraform workspace new "$3" "$SCRIPTPATH/templates/$1" 2>/dev/null
 terraform workspace select "$3" "$SCRIPTPATH/templates/$1" || exit "1"
-
-terraform init --backend=true -backend-config="organization=$2" -input=false "$SCRIPTPATH/templates/$1"
 
 $SCRIPTPATH/bin/local-execution-mode "$2" "$1_$3" || exit "1"
 

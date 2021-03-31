@@ -16,9 +16,9 @@ export TF_IN_AUTOMATION="1"
 
 cd "$1" 2>/dev/null || fail "unknown template $1"
 
-terraform workspace select "$3" || exit "1"
+echo "1" | terraform init --backend=true -backend-config="organization=$2"
 
-terraform init --backend=true -backend-config="organization=$2"
+terraform workspace select "$3" || exit "1"
 
 $SCRIPTPATH/bin/local-execution-mode "$2" "$1_$3" || exit "1"
 
