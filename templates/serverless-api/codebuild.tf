@@ -25,6 +25,10 @@ resource "aws_codebuild_project" "codebuild" {
         value = environment_variable.value
       }
     }
+    environment_variable {
+      name  = "VARS"
+      value = join("|", keys(var.env_vars))
+    }
   }
 
   source {
