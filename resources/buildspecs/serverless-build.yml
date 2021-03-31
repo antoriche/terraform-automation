@@ -7,5 +7,7 @@ phases:
   build:
     commands:
       - ENV=${ENV:-"dev"}
-      - printenv | grep "$VARS" > .env
+      - echo $VARS
+      - printenv | grep -E "$VARS" | grep -v "VARS=" > .env
+      - cat .env
       - npx serverless deploy --stage "$ENV"
