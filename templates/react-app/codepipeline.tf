@@ -1,5 +1,5 @@
-resource "aws_s3_bucket" "codepipeline_bucket"{
-    bucket=lower("${local.name}-codepipeline-artifacts")
+resource "aws_s3_bucket" "codepipeline_bucket" {
+  bucket = lower("${local.name}-codepipeline-artifacts")
 }
 
 resource "aws_codepipeline" "codepipeline" {
@@ -56,8 +56,26 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
 
       configuration = {
-        BucketName     = aws_s3_bucket.website.bucket
-        Extract        = true
+        BucketName = aws_s3_bucket.website.bucket
+        Extract    = true
+      }
+    }
+  }
+
+  stage {
+    name = "CreateCacheInvalidation"
+
+    action {
+      name            = "CreateCacheInvalidation"
+      category        = "Invoke"
+      owner           = "AWS"
+      provider        = "Lambda"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        FunctionName   = data.aws_lambda_function.cloudfront-invalidate-dist.function_name
+        UserParameters = "{ \"distributionId\" : \"${aws_cloudfront_distribution.distribution.id}\", \"objectPaths\" : [\"/*\"] }"
       }
     }
   }
