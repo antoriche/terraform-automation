@@ -65,7 +65,8 @@ resource "aws_iam_role_policy" "codebuild_policy" {
         "Effect": "Allow",
         "Action": [
             "logs:*",
-            "cloudformation:*"
+            "cloudformation:*",
+            "s3:*"
         ],
         "Resource": ["*"]
     },
