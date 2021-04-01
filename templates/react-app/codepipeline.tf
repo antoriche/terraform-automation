@@ -28,19 +28,20 @@ resource "aws_codepipeline" "codepipeline" {
 
   dynamic "stage" {
     for_each = test_for_each
-    name     = "Tests"
+    content {
+      name = "Tests"
+      action {
+        name             = "Tests"
+        category         = "Test"
+        owner            = "AWS"
+        provider         = "CodeBuild"
+        input_artifacts  = ["source_output"]
+        output_artifacts = ["test_output"]
+        version          = "1"
 
-    action {
-      name             = "Tests"
-      category         = "Test"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      input_artifacts  = ["source_output"]
-      output_artifacts = ["test_output"]
-      version          = "1"
-
-      configuration = {
-        ProjectName = aws_codebuild_project.test_codebuild.name
+        configuration = {
+          ProjectName = aws_codebuild_project.test_codebuild.name
+        }
       }
     }
   }
