@@ -27,7 +27,7 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   dynamic "stage" {
-    for_each = test_for_each
+    for_each = local.test_for_each
     content {
       name = "Tests"
       action {
