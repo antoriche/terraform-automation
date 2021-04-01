@@ -26,6 +26,24 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 
+  dynamic "stage" {
+    count = var.test_before_deploy ? 0 : 1
+    name  = "Tests"
+
+    action {
+      name             = "Tests"
+      category         = "Test"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["test_output"]
+      version          = "1"
+
+      configuration = {
+        ProjectName = aws_codebuild_project.test_codebuild.name
+      }
+    }
+  }
   stage {
     name = "Build"
 

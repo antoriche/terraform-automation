@@ -22,6 +22,15 @@ variable "env_vars" {
   description = "Environnement variables to build"
   type        = "map"
 }
+variable "test_before_deploy" {
+  description = "Run tests before deployment"
+  type        = "boolean"
+  default     = false
+}
+variable "test_buildspec" {
+  type    = "string"
+  default = "resources/buildspecs/react-test.yml"
+}
 
 locals {
   name = terraform.workspace
