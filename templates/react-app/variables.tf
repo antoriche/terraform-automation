@@ -24,8 +24,8 @@ variable "env_vars" {
 }
 variable "test_before_deploy" {
   description = "Run tests before deployment"
-  type        = "boolean"
-  default     = false
+  type        = "string"
+  default     = "false"
 }
 variable "test_buildspec" {
   type    = "string"
