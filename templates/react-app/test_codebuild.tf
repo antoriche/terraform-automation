@@ -2,6 +2,9 @@ data "local_file" "test_buildspec" {
   filename = "${path.module}/../../${var.test_buildspec}"
 }
 
+locals {
+  test_for_each = var.test_before_deploy != "true" ? {} : { "1" : "" }
+}
 
 resource "aws_codebuild_project" "test_codebuild" {
   name         = "${local.name}-tests-codebuild"

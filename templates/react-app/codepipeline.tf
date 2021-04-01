@@ -27,8 +27,8 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   dynamic "stage" {
-    count = var.test_before_deploy != "true" ? 0 : 1
-    name  = "Tests"
+    for_each = test_for_each
+    name     = "Tests"
 
     action {
       name             = "Tests"
